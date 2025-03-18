@@ -1,6 +1,3 @@
-Here’s a complete `README.md` file for your project, including your output screenshot.
-
----
 
 ## 🚀 **Jenkins CI/CD Docker Integration Project**
 
