@@ -1,15 +1,24 @@
 pipeline {
-    agent any
+    agent { label 'Dev-Agent' }
 
     environment {
         DOCKER_IMAGE = 'nimitha1111/my-httpd-image'
-        DOCKER_CREDENTIALS = 'dockerhub_credentials_id'  // Update with your Docker Hub credentials ID
+        DOCKER_CREDENTIALS = 'dockerhub_credentials_id'
+        GITHUB_CREDENTIALS = 'github-credentials-id'  // GitHub credentials ID from Jenkins
     }
 
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/Venanciusnimitha/jenkins-cicd-project-1.git'
+                script {
+                    checkout([$class: 'GitSCM',
+                        branches: [[name: '*/main']],
+                        userRemoteConfigs: [[
+                            url: 'https://github.com/Venanciusnimitha/jenkins-cicd-project-1.git',
+                            credentialsId: GITHUB_CREDENTIALS
+                        ]]
+                    ])
+                }
             }
         }
 
@@ -21,22 +30,26 @@ pipeline {
             }
         }
 
-        stage('Login to Docker Hub') {
+        stage('Login to Docker Hub and Push Image') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIALS) {
-                        echo 'Logged in to Docker Hub successfully!'
+                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS) {
+                        dockerImage.push('latest')
                     }
                 }
             }
         }
 
-        stage('Push Docker Image') {
+        stage('Deploy using Docker Compose') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIALS) {
-                        dockerImage.push('latest')
-                    }
+                    sh '''
+                    echo "Stopping running containers..."
+                    docker-compose down || true
+                    
+                    echo "Starting new containers..."
+                    docker-compose up -d
+                    '''
                 }
             }
         }
@@ -44,10 +57,10 @@ pipeline {
 
     post {
         success {
-            echo '✅ Docker image pushed successfully!'
+            echo '✅ Build, push, and deployment successful!'
         }
         failure {
-            echo '❌ Build or push failed. Check logs.'
+            echo '❌ Build or deployment failed. Check the logs for errors.'
         }
     }
 }
