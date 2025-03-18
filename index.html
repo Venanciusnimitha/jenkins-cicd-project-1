@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Jenkins CI/CD Docker Project</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jenkins CI/CD Docker Integration Project</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,79 +13,73 @@
         }
         .container {
             width: 80%;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
             border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
         }
         h1 {
             color: #333;
+            text-align: center;
+        }
+        h2 {
+            color: #444;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 5px;
         }
         p {
-            font-size: 18px;
             line-height: 1.6;
+            color: #555;
         }
-        .highlight {
-            color: #007bff;
-            font-weight: bold;
+        .project-details, .technologies {
+            background-color: #f0f8ff;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+        a {
+            color: #1e90ff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🚀 Jenkins CI/CD Docker Integration Project</h1>
+
+<div class="container">
+    <h1>Jenkins CI/CD Docker Integration Project</h1>
+
+    <div class="project-details">
+        <h2>Project Overview</h2>
         <p>
-            This project demonstrates a complete <span class="highlight">CI/CD pipeline</span> using 
-            <strong>Jenkins</strong>, <strong>Docker</strong>, and <strong>GitHub</strong>.
-        </p>
-        
-        <h2>🎯 Project Overview</h2>
-        <p>
-            The main objective of this project is to automate the process of building, testing, and 
-            deploying a Docker container using Jenkins. The pipeline performs the following steps:
+            The main objective of this project is to automate the process of building, testing, and deploying a Docker container using Jenkins. The pipeline performs the following steps:
         </p>
         <ul>
-            <li>✅ Clone source code from a GitHub repository</li>
-            <li>✅ Build a Docker image using a Dockerfile</li>
-            <li>✅ Push the built image to Docker Hub</li>
-            <li>✅ Clean up Docker resources after a successful push</li>
+            <li>Clone source code from a GitHub repository</li>
+            <li>Build a Docker image using a Dockerfile</li>
+            <li>Push the built image to Docker Hub</li>
+            <li>Clean up Docker resources after a successful push</li>
         </ul>
-
-        <h2>📝 Project Details</h2>
-        <p>
-            <strong>GitHub Repository:</strong> 
-            <a href="https://github.com/Venanciusnimitha/jenkins-cicd-project-1" target="_blank">
-                https://github.com/Venanciusnimitha/jenkins-cicd-project-1
-            </a>
-        </p>
-        <p>
-            <strong>Docker Hub Image:</strong> 
-            <a href="https://hub.docker.com/r/nimitha1111/my-httpd-image" target="_blank">
-                https://hub.docker.com/r/nimitha1111/my-httpd-image
-            </a>
-        </p>
-
-        <h2>📚 Technologies Used</h2>
-        <ul>
-            <li>🔹 Jenkins for CI/CD automation</li>
-            <li>🔹 Docker for containerization</li>
-            <li>🔹 Git & GitHub for version control</li>
-        </ul>
-
-        <h2>🎉 Final Outcome</h2>
-        <p>
-            The successfully built Docker image is pushed to Docker Hub and can be pulled and 
-            deployed on any environment using the following command:
-        </p>
-        <pre>
-docker pull nimitha1111/my-httpd-image
-docker run -d -p 8080:80 nimitha1111/my-httpd-image
-        </pre>
-
-        <p>
-            Thank you for visiting! 🚀
-        </p>
     </div>
+
+    <div class="project-details">
+        <h2>Project Details</h2>
+        <p><strong>GitHub Repository:</strong> <a href="https://github.com/Venanciusnimitha/jenkins-cicd-project-1" target="_blank">https://github.com/Venanciusnimitha/jenkins-cicd-project-1</a></p>
+        <p><strong>Docker Hub Image:</strong> <a href="https://hub.docker.com/r/nimitha1111/my-httpd-image" target="_blank">https://hub.docker.com/r/nimitha1111/my-httpd-image</a></p>
+    </div>
+
+    <div class="technologies">
+        <h2>Technologies Used</h2>
+        <ul>
+            <li>Jenkins for CI/CD automation</li>
+            <li>Docker for containerization</li>
+        </ul>
+    </div>
+</div>
+
 </body>
 </html>
