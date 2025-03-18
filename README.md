@@ -156,7 +156,7 @@ Below is a screenshot of the successful deployment:
 
 ## 📝 **Author**
 - 🎯 **Name:** Nimitha V  
-- 📧 **Email:** nimitha@example.com
+- 📧 **Email:** nimitha.v.1111@gmail.com
 
 ---
 
