@@ -1,41 +1,26 @@
 pipeline {
     agent any
-
-    environment {
-        DOCKER_IMAGE = 'nimitha1111/my-httpd-image'
-        DOCKER_CREDENTIALS_ID = 'dockerhub_credentials_id' // Add this in Jenkins
-    }
-
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/Venanciusnimitha/jenkins-cicd-project-1.git'
+                git credentialsId: 'github-credentials-id', url: 'https://github.com/Venanciusnimitha/jenkins-cicd-project-1.git'
             }
         }
-
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE .'
+                sh 'docker build -t myapp:latest .'
             }
         }
-
         stage('Login to Docker Hub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                withDockerRegistry([credentialsId: 'dockerhub_credentials_id', url: '']) {
+                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
                 }
             }
         }
-
         stage('Push Docker Image') {
             steps {
-                sh 'docker push $DOCKER_IMAGE'
-            }
-        }
-
-        stage('Clean Up') {
-            steps {
-                sh 'docker rmi $DOCKER_IMAGE'
+                sh 'docker push myapp:latest'
             }
         }
     }
