@@ -1,29 +1,53 @@
 pipeline {
     agent any
+
+    environment {
+        DOCKER_IMAGE = 'nimitha1111/my-httpd-image'
+        DOCKER_CREDENTIALS = 'dockerhub_credentials_id'  // Update with your Docker Hub credentials ID
+    }
+
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', 
-                    credentialsId: 'github-credentials-id', 
-                    url: 'https://github.com/Venanciusnimitha/jenkins-cicd-project-1.git'
+                git 'https://github.com/Venanciusnimitha/jenkins-cicd-project-1.git'
             }
         }
+
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t nimitha1111/myapp:latest .'
-            }
-        }
-        stage('Login to Docker Hub') {
-            steps {
-                withDockerRegistry([credentialsId: 'dockerhub_credentials_id', url: '']) {
-                    echo 'Logged into Docker Hub successfully!'
+                script {
+                    dockerImage = docker.build("${DOCKER_IMAGE}:latest")
                 }
             }
         }
+
+        stage('Login to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIALS) {
+                        echo 'Logged in to Docker Hub successfully!'
+                    }
+                }
+            }
+        }
+
         stage('Push Docker Image') {
             steps {
-                sh 'docker push nimitha1111/myapp:latest'
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIALS) {
+                        dockerImage.push('latest')
+                    }
+                }
             }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Docker image pushed successfully!'
+        }
+        failure {
+            echo '❌ Build or push failed. Check logs.'
         }
     }
 }
