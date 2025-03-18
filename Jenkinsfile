@@ -33,22 +33,24 @@ pipeline {
         stage('Login to Docker Hub and Push Image') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS) {
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIALS) {
                         dockerImage.push('latest')
                     }
                 }
             }
         }
 
-        stage('Deploy using Docker Compose') {
+        stage('Run Docker Container') {
             steps {
                 script {
+                    // Stop and remove the existing container if running
                     sh '''
-                    echo "Stopping running containers..."
-                    docker-compose down || true
-                    
-                    echo "Starting new containers..."
-                    docker-compose up -d
+                    echo "Stopping and removing any existing container..."
+                    docker stop my-httpd-container || true
+                    docker rm my-httpd-container || true
+
+                    echo "Running new container..."
+                    docker run -d --name my-httpd-container -p 8080:80 nimitha1111/my-httpd-image:latest
                     '''
                 }
             }
@@ -57,7 +59,7 @@ pipeline {
 
     post {
         success {
-            echo '✅ Build, push, and deployment successful!'
+            echo '✅ Build, push, and container deployment successful!'
         }
         failure {
             echo '❌ Build or deployment failed. Check the logs for errors.'
