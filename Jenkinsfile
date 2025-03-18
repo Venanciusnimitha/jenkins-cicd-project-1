@@ -1,10 +1,10 @@
 pipeline {
-    agent { label 'Dev-Agent' }
+    agent any  // Run on Jenkins master node
 
     environment {
-        DOCKER_IMAGE = 'nimitha1111/my-httpd-image'
-        DOCKER_CREDENTIALS = 'dockerhub_credentials_id'
-        GITHUB_CREDENTIALS = 'github-credentials-id'  // GitHub credentials ID from Jenkins
+        DOCKER_IMAGE = 'nimitha1111/my-httpd-image'  // Your Docker Hub image
+        DOCKER_CREDENTIALS = 'dockerhub_credentials_id'  // Docker Hub credentials ID in Jenkins
+        GITHUB_CREDENTIALS = 'github-credentials-id'  // GitHub credentials ID in Jenkins
     }
 
     stages {
@@ -43,7 +43,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    // Stop and remove the existing container if running
+                    // Stop and remove any existing container with the same name
                     sh '''
                     echo "Stopping and removing any existing container..."
                     docker stop my-httpd-container || true
