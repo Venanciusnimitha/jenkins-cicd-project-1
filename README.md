@@ -164,4 +164,3 @@ Below is a screenshot of the successful deployment:
 
 ---
 
-This README includes everything about your project with a reference to the screenshot. Let me know if you need any modifications! 😊
